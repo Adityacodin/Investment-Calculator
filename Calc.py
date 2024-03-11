@@ -4,6 +4,10 @@ import tkinter as tk
 ctk.set_appearance_mode("dark")
 ctk.set_default_color_theme("green")
 
+tenure = 0
+amt = 0
+
+
 class App(ctk.CTk):
     def __init__(self,*args,**kwargs):
         super().__init__(*args,**kwargs)
