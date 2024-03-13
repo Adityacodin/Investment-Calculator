@@ -1,5 +1,4 @@
 ﻿# Investment-Calculator
 
-
-# Author : Aditya Mohite
-#          Jay Dhamankar
+<p>1.Aditya Mohite</p>
+<p>2.Jay Dhamankar</p>
