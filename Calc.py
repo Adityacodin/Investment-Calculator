@@ -1,5 +1,6 @@
 import customtkinter as ctk
 import tkinter as tk
+import math
 
 ctk.set_appearance_mode("dark")
 ctk.set_default_color_theme("green")
@@ -24,7 +25,7 @@ class App(ctk.CTk):
             self.AmtDisp.configure(text=str(format(N,',d')))
 
 
-        def getAns(self,amt,te,pe) :
+        def getSip(self,amt,te,pe) :
             P = amt
             i = float(pe/12)
             n = te*12
@@ -33,22 +34,29 @@ class App(ctk.CTk):
             N = int(amt*n)
             print(M,N)
             Display(self,M,N)
-            
+
+        def getLump(self,lsamt,te,pe):
+            P=lsamt
+            M = math.ceil(P*(pow(1+pe,te)))
+            print(M,P)
+            Display(self,M,P)
 
         def pressedCalculate():
-            global amount
-            if self.Amt.get() != '':
-                amount = int(self.Amt.get())
-            elif self.ls.get() != '':
-                amount = int(self.ls.get())
-
             global tenure
             tenure = int(self.ten.get())
 
             global per
             per = float(int(self.roi.get())/100)
 
-            getAns(self,amount,tenure,per)
+            global amount
+            if self.Amt.get() != '':
+                amount = int(self.Amt.get())
+                getSip(self,amount,tenure,per)
+            elif self.ls.get() != '':
+                lsamount = int(self.ls.get())
+                getLump(self, lsamount, tenure, per)
+
+            
 
             
         # print(amount)
@@ -57,6 +65,8 @@ class App(ctk.CTk):
             # self.ten.delete(0,'end')
             self.ls.delete(0,'end')
             self.roi.delete(0,'end')
+            self.MatDisp.configure(text="")
+            self.AmtDisp.configure(text="")
             
 
 
