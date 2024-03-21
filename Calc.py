@@ -1,6 +1,8 @@
 import customtkinter as ctk
 import tkinter as tk
 import math
+import matplotlib.pyplot as plt 
+import numpy as np
 
 ctk.set_appearance_mode("dark")
 ctk.set_default_color_theme("green")
@@ -11,19 +13,24 @@ class App(ctk.CTk):
 
     def __init__(self,*args,**kwargs):
         super().__init__(*args,**kwargs)
-        
-        # amount = 0.0
-        # tenure = 0
-        # per = 0
-        # lumpSum = 0
 
-#
+        def dispPie(self,M,N):
+            names = ['Invested Amount\n('+str(format(N,',d'))+')','Maturity Value\n('+str(format(M,',d'))+')'] 
+            pi = np.array([N,M])
+            fig = plt.figure(figsize=(5,5))
 
+            plt.pie(pi,labels= names)
+            plt.show()
 
         def Display(self,M,N):
             self.MatDisp.configure(text=str(format(M,',d')))
             self.AmtDisp.configure(text=str(format(N,',d')))
+            self.Details = ctk.CTkButton(self,text='Details',bg_color = '#02b165',border_color='#02b165',command = lambda: dispPie(self,M,N))
+            self.Details.grid(row = 4, column = 2, padx = 20, pady = 20, sticky= 'ew')
+            # dispPie(self,M,N)
 
+        
+            
 
         def getSip(self,amt,te,pe) :
             P = amt
@@ -58,6 +65,8 @@ class App(ctk.CTk):
 
             
 
+        
+            
             
         # print(amount)
         def pressedReset():
@@ -100,10 +109,11 @@ class App(ctk.CTk):
         self.ls.grid(row = 3, column = 1, padx = 20, pady = 20, sticky = 'ew')
 
         self.Calculate = ctk.CTkButton(self,text="Calculate",bg_color="#02b165",border_color="black", command = pressedCalculate)
-        self.Calculate.grid(row = 4, column = 1, padx = 20, pady = 20 ,sticky = 'ew')
+        self.Calculate.grid(row = 4, column = 0, padx = 20, pady = 20 ,sticky = 'ew')
 
         self.Reset = ctk.CTkButton(self,text="Reset",bg_color="#02b165",border_color="black",command = pressedReset)
-        self.Reset.grid(row = 4,column = 2, padx =20, pady = 20, sticky = 'ew')
+        self.Reset.grid(row = 4,column = 1, padx =20, pady = 20, sticky = 'ew')
+
 
         self.InvAmt = ctk.CTkLabel(self,text ="Invested Amount")
         self.InvAmt.grid(row = 5, column = 0, padx = 20, pady = 20, sticky = 'ew')
