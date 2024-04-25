@@ -3,14 +3,13 @@ import tkinter as tk
 import math
 import matplotlib.pyplot as plt 
 import numpy as np
+from tkinter import messagebox
 
 ctk.set_appearance_mode("bright")
 ctk.set_default_color_theme("blue")
 
 class App(ctk.CTk):
     
-
-
     def __init__(self,*args,**kwargs):
         super().__init__(*args,**kwargs)
 
@@ -48,27 +47,76 @@ class App(ctk.CTk):
             print(M,P)
             Display(self,M,P)
 
+
+        def mixedletters(quant):
+            for i in range(len(quant)):
+                if quant[i].isalpha():
+                    return True
+            return False
+
         def pressedCalculate():
+
             global tenure
-            tenure = int(self.ten.get())
+            if self.ten.get() == '':
+                messagebox.showerror('Error','Please enter the tenure of your investment')
+                return
+            elif '.' in self.ten.get():
+                messagebox.showerror('Error','Entered a fractional value')
+                return
+            elif self.ten.get().isalpha() or mixedletters(self.ten.get()):
+                messagebox.showerror('Error','Only numerical values allowed')
+                return
+            else :
+                tenure = int(self.ten.get())
+                if tenure == 0:
+                    messagebox.showerror('Error','Tenure is zero')
 
+            
             global per
-            per = float(int(self.roi.get())/100)
+            if self.roi.get() == '':
+                messagebox.showerror('Error','Please enter the Rate of Return on your investment')
+                return
+            elif self.roi.get().isalpha() or mixedletters(self.roi.get()):
+                messagebox.showerror('Error','Only numerical values allowed')
+                return
+            else:
+                per = float(self.roi.get())
+                if per > 0.0:
+                    per /= 100
+                    if per > 1.00:
+                        messagebox.showerror('Error','ROI cannot be greater than 100')
+                        return
+                else :
+                    messagebox.showerror('Error','ROI cannot be zero')
+                    return
 
+            
             global amount
-            if self.Amt.get() != '':
-                amount = int(self.Amt.get())
-                getSip(self,amount,tenure,per)
-            elif self.ls.get() != '':
-                lsamount = int(self.ls.get())
-                getLump(self, lsamount, tenure, per)
+            if self.Amt.get() == '' and self.ls.get() =='':
+                messagebox.showerror('Error','Please enter Investment Value')
+            elif self.ls.get() =='' and self.Amt.get() != '':
+                if '.' in self.Amt.get():
+                    messagebox.showerror('Error','Entered a fractional value')
+                    return
+                elif self.Amt.get().isalpha() or mixedletters(self.Amt.get()):
+                    messagebox.showerror('Error','Only numerical values allowed')
+                    return
+                else:
+                    amount = int(self.Amt.get())
+                    getSip(self,amount,tenure,per)
+            elif self.Amt.get() =='' and self.ls.get() != '' :
+                if '.' in self.ls.get():
+                    messagebox.showerror('Error','Entered a fractional value')
+                    return
+                elif self.ls.get().isalpha() or mixedletters(self.ls.get()):
+                    messagebox.showerror('Error','Only numerical values allowed')
+                    return
+                else:
+                    amount = int(self.ls.get())
+                    getLump(self, amount, tenure, per)
+            else:
+                messagebox.showerror('Error','Please calculate either LumpSum or Sip not both at the same time')              
 
-            
-
-        
-            
-            
-        # print(amount)
         def pressedReset():
             self.Amt.delete(0,'end')
             # self.ten.delete(0,'end')
