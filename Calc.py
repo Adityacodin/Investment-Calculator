@@ -124,6 +124,7 @@ class App(ctk.CTk):
             self.roi.delete(0,'end')
             self.MatDisp.configure(text="")
             self.AmtDisp.configure(text="")
+            self.Details.destroy()
             
 
 
